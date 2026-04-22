@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-123}"
+      POSTGRES_USER: "${POSTGRES_USER:-postgres}"
+      POSTGRES_DB: "${POSTGRES_DB:-postgres}"
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-vista_dev}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vibebook-network
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: azurite
+    ports:
+      - "10000:10000"
+    command: ["azurite-blob","--skipApiVersionCheck", "--blobHost", "0.0.0.0"]
+    restart: unless-stopped
+    networks:
+      - vibebook-network
+
+
+
+volumes:
+  postgres:
+  # azurite:
+
+networks:
+  vibebook-network:
+    driver: bridge
