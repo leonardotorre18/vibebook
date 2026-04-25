@@ -8,6 +8,7 @@ import dbEnv from './environments/db.env';
 import azureEnv from './environments/azure.env';
 import jwtEnv from './environments/jwt.env';
 import { PrismaModule } from './modules/prisma/prisma.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { PrismaModule } from './modules/prisma/prisma.module';
     PrismaModule,
     StorageModule,
     MediaModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,47 @@
+import Form from 'next/form'
+
+
 export default function Home() {
+  const formLoginAction = async (formData: FormData) => {
+    'use server'
+    const email = formData.get('email')
+    const password = formData.get('password')
+
+    const res = await fetch('http://localhost:3000/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      })
+    })
+    console.log(await res.json())
+  }
+  const formRegisterAction = async (formData: FormData) => {
+    'use server'
+    const email = formData.get('email')
+    const password = formData.get('password')
+    
+    const lastname = formData.get('lastname')
+    const name = formData.get('name')
+    
+
+    const res = await fetch('http://localhost:3000/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        lastname,
+        name,
+      })
+    })
+    console.log(await res.json())
+  }
   return (
     <div>
       <header className="bg-sky-700 text-white">
@@ -9,7 +52,7 @@ export default function Home() {
             </p>
           </div>
           <div>
-            <form className="flex gap-4 items-end text-sm">
+            <form action={formLoginAction} className="flex gap-4 items-end text-sm">
               <label htmlFor="email" className="flex flex-col gap-1">
                 Correo:
                 <input
@@ -41,7 +84,7 @@ export default function Home() {
             <p className="text-xl font-bold">Crea una cuenta</p>
             <p className="font-semibold">Vibebook es gratis y siempre lo será</p>
           </div>
-          <form className="flex flex-col gap-4">
+          <form action={formRegisterAction} className="flex flex-col gap-4">
             <div className="flex gap-4">
               <input
                 type="text"
