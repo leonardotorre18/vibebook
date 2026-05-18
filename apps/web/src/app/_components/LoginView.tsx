@@ -1,12 +1,12 @@
-import Form from 'next/form'
+import { cookies } from "next/headers"
 
-
-export default function Home() {
+export default async () => {
+  
   const formLoginAction = async (formData: FormData) => {
     'use server'
     const email = formData.get('email')
     const password = formData.get('password')
-
+    
     const res = await fetch('http://localhost:3000/auth/login', {
       method: 'POST',
       headers: {
@@ -16,8 +16,16 @@ export default function Home() {
         email,
         password,
       })
+    }).then(res => res.json())
+    
+    const cookieStore = await cookies()
+    cookieStore.set('accessToken', res.accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
+      path: '/',
     })
-    console.log(await res.json())
   }
   const formRegisterAction = async (formData: FormData) => {
     'use server'

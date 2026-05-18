@@ -3,7 +3,7 @@ import { AuthService } from "./auth.service";
 import { RegisterUserDto } from "./dtos/register-user.dto";
 import { LoginUserDto } from "./dtos/login-user.dto";
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
-import type { Request, Response } from 'express'
+import type { Request } from 'express'
 
 
 @Controller('auth')
@@ -18,28 +18,31 @@ export class AuthController {
   @Post('login')
   async login(
     @Body() body: LoginUserDto,
-    @Res({ passthrough: true }) res: Response,
+    // @Res({ passthrough: true }) res: Response,
   ) {
     const auth = await this.service.login(body);
-    res.cookie('accessToken', auth.accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
-      path: '/',
-    })
+    // res.cookie('accessToken', auth.accessToken, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === 'production',
+    //   sameSite: 'lax',
+    //   expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
+    //   path: '/',
+    // })
     return auth
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Post('logout')
-  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response){
-    res.clearCookie('accessToken');
-    const { user } = req;
-    return {
-      user
-    }
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Post('logout')
+  // async logout(
+  //   @Req() req: Request, 
+  //   @Res({ passthrough: true }) res: Response
+  // ){
+  //   res.clearCookie('accessToken');
+  //   const { user } = req;
+  //   return {
+  //     user
+  //   }
+  // }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
