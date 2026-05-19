@@ -1,7 +1,8 @@
+import { CreateUser } from "@repo/types";
 import { Transform } from "class-transformer";
 import { IsNotEmpty, IsString } from "class-validator"
 
-export class RegisterUserDto {
+export class RegisterUserDto implements CreateUser {
   @IsString()
   @IsNotEmpty()
   @Transform(({ value }) => value.toLowerCase().trim())

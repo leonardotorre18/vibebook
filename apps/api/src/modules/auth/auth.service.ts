@@ -9,12 +9,12 @@ import { JwtService } from "@nestjs/jwt";
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly service: PrismaService,
+    private readonly repository: PrismaService,
     private readonly jwtService: JwtService
   ) { }
 
   async register({ email, name, password, lastname }: RegisterUserDto) {
-    const user = await this.service.user.create({
+    const user = await this.repository.user.create({
       data: {
         email,
         name,
@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   async login({ email, password }: LoginUserDto) {
-    const user = await this.service.user.findUnique({ where: { email } })
+    const user = await this.repository.user.findUnique({ where: { email } })
 
     if (!user)
       throw new NotFoundException()
