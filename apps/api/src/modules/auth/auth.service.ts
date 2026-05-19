@@ -19,7 +19,8 @@ export class AuthService {
         email,
         name,
         lastname,
-        passwordHash: bcrypt.hashSync(password, 8)
+        passwordHash: bcrypt.hashSync(password, 8),
+        username: '',
       },
       omit: {
         passwordHash: true

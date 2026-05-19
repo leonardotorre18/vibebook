@@ -18,11 +18,11 @@ export default ({ post }: PropTypes) => {
 
         </div>
         {/* Right */}
-        <div>
+        <div className="flex-1">
           <div className="mb-3">
             <div>
               <p className="flex gap-1 items-center">
-                <a href="/" className="text-sky-700 font-bold">{post.user.name}</a>
+                <a href={'/profile/' + post.user.id} className="text-sky-700 font-bold">{post.user.name}</a>
                 <span className="text-sm text-gray-400">publicado hace un momento</span>
               </p>
             </div>
@@ -36,6 +36,7 @@ export default ({ post }: PropTypes) => {
             <button className="text-sky-800 hover:text-sky-600 cursor-pointer">Comentar</button>
             <button className="text-sky-800 hover:text-sky-600 cursor-pointer">Compartir</button>
           </div>
+          
           <div className="flex gap-2 text-sm items-center py-1 bg-gray-100 px-1">
             <div>
               <Icon

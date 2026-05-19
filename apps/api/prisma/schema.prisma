@@ -22,6 +22,7 @@ model User {
   email String @unique
   name String
   lastname String
+  username String @unique
   passwordHash String @map("password_hash")
 
 

@@ -3,6 +3,7 @@ import CreatePostForm from "./CreatePostForm";
 import { Post, User } from '@repo/types'
 import PostCard from "@/src/components/PostCard";
 import Navbar from "@/src/components/Navbar";
+import DefaultProfile from "@/src/components/DefaultProfile";
 
 interface PropTypes {
   user: User
@@ -23,14 +24,28 @@ export default async ({ user }: PropTypes) => {
   return (
     <>
       <Navbar user={user} />
-      <main className="px-4 py-6">
+      <main className="px-4 py-6 flex gap-4">
         <div>
-          <CreatePostForm />
+          <div className="flex gap-2">
+            <div className="w-12 h-12">
+              <DefaultProfile />
+            </div>
+            <div>
+              <p className="text-sm font-semibold">{user.name} {user.lastname}</p>
+              <p className="text-xs">Editar Perfil</p>
+            </div>
+          </div>
         </div>
+        <div className="flex-1 max-w-2xl">
+          <div>
+            <CreatePostForm />
+          </div>
 
-        <div className="flex flex-col gap-2 py-4">
-          { posts.map(post => <PostCard key={post.id} post={post} />) }
+          <div className="flex flex-col gap-2 py-4">
+            { posts.map(post => <PostCard key={post.id} post={post} />) }
+          </div>
         </div>
+        <div></div>
       </main>
     </>
   );
