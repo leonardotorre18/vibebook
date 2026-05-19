@@ -4,6 +4,7 @@ import { LoginUserDto } from "./dtos/login-user.dto";
 import { PrismaService } from "../prisma/prisma.service";
 import * as bcrypt from 'bcrypt'
 import { JwtService } from "@nestjs/jwt";
+import { nanoid } from "nanoid";
 
 
 @Injectable()
@@ -14,13 +15,14 @@ export class AuthService {
   ) { }
 
   async register({ email, name, password, lastname }: RegisterUserDto) {
+    const username = await this.generateUniqueUsername(email)
     const user = await this.repository.user.create({
       data: {
         email,
         name,
         lastname,
         passwordHash: bcrypt.hashSync(password, 8),
-        username: '',
+        username,
       },
       omit: {
         passwordHash: true
@@ -57,5 +59,14 @@ export class AuthService {
       user: payload,
       accessToken: this.jwtService.sign(payload),
     }
+  }
+
+  private async generateUniqueUsername(email: string): Promise<string> {
+    const base = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+    
+    const existing = await this.repository.user.findUnique({ where: { username: base } });
+    if (!existing) return base;
+
+    return `${base}${nanoid(4)}`;
   }
 }

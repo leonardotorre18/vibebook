@@ -22,7 +22,9 @@ export default ({ post }: PropTypes) => {
           <div className="mb-3">
             <div>
               <p className="flex gap-1 items-center">
-                <a href={'/profile/' + post.user.id} className="text-sky-700 font-bold">{post.user.name}</a>
+                <a href={'/profile/' + post.user.username} className="text-sky-700 font-bold">
+                  {post.user.name} {post.user.lastname}
+                </a>
                 <span className="text-sm text-gray-400">publicado hace un momento</span>
               </p>
             </div>

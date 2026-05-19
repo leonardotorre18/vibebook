@@ -14,7 +14,7 @@ export class PostsService {
             email: true,
             name: true,
             lastname: true,
-            id: true,
+            username: true,
           }
         }
       },

@@ -1,32 +1,20 @@
 import Navbar from "@/src/components/Navbar"
-import { cookies } from "next/headers"
-import CreatePostForm from "../../_components/CreatePostForm"
 import DefaultProfile from "@/src/components/DefaultProfile"
 import { Post } from "@repo/types"
 import PostCard from "@/src/components/PostCard"
 
 interface PropTypes {
   params: Promise<{
-    id: string
+    username: string
   }>
 }
 
 export default async ({ params }: PropTypes) => {
-  const { id } = await params
-  const cookieStore = await cookies()
-
-  const token = cookieStore.get('accessToken')?.value
-
-  const user = await fetch('http://localhost:3000/auth/profile', {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  }).then(res => res.json()).then(({ user }) => user)
+  const { username } = await params
+  const user = await fetch('http://localhost:3000/users/' + username)
+    .then(res => res.json()).then(({ user }) => user)
 
   const posts: Post[] = await fetch('http://localhost:3000/posts', {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    },
     cache: 'no-store',
   }).then(res => res.json()).then(({ posts }) => posts)
 
@@ -34,11 +22,11 @@ export default async ({ params }: PropTypes) => {
     <> 
     <div className="bg-gray-100">
       <Navbar user={user} />
-
+  
       {/* User Heading */}
       <div>
         <div className="h-56">
-
+  
         </div>
         <div>
           <div className="bg-white flex ">
@@ -51,11 +39,11 @@ export default async ({ params }: PropTypes) => {
             <div className="font-bold text-sky-800 py-2 px-3">Biografía</div>
             <div className="font-bold text-sky-800 py-2 px-3">Fotos</div>
             <div className="font-bold text-sky-800 py-2 px-3">Amigos</div>
-
+  
           </div>
         </div>
       </div>
-
+  
       <div className="flex max-w-5xl">
         <div className="p-4 flex-1">
           <div className="">
@@ -67,20 +55,19 @@ export default async ({ params }: PropTypes) => {
             {/* Friends Gallery */}
           </div>
         </div>
-
+  
         <div className="p-4 flex-2">
-          <CreatePostForm />
-
+  
           <div className="space-y-2 py-4">
             { posts.map(post => (
               <div className="bg-white px-2 py-1">
-                <PostCard post={post} />
+                <PostCard key={post.id} post={post} />
               </div>
             )) }
           </div>
         </div>
       </div>
-
+  
     </div>
     </>
   )

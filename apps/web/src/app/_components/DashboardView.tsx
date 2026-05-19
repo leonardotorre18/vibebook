@@ -32,7 +32,7 @@ export default async ({ user }: PropTypes) => {
             </div>
             <div>
               <p className="text-sm font-semibold">{user.name} {user.lastname}</p>
-              <p className="text-xs">Editar Perfil</p>
+              <a href="/profile" className="text-xs">Editar Perfil</a>
             </div>
           </div>
         </div>

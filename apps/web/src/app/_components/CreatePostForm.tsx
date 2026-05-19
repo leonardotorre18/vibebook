@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 
 export default async () => {
@@ -10,7 +11,7 @@ export default async () => {
     'use server'
     const body = formData.get('body')
 
-    fetch('http://localhost:3000/posts', {
+    await fetch('http://localhost:3000/posts', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -20,6 +21,8 @@ export default async () => {
         body
       })
     })
+    revalidatePath('')
+
   }
   return (
     <>

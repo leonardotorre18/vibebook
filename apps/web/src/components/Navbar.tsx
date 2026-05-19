@@ -21,7 +21,9 @@ export default ({ user }: PropTypes) => {
                 <div>
                   {/* <img src="" alt="" /> */}
                 </div>
-                <p className="text-sm font-bold">{user.name} {user.lastname}</p>
+                <a href="/profile">
+                  <p className="text-sm font-bold">{user.name} {user.lastname}</p>
+                </a>
               </div>
             </div>
           </nav>
