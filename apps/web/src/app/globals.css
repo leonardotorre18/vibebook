@@ -2,10 +2,10 @@
 @tailwind base;
 
 @layer base {
-  body {
-    @apply bg-sky-100;
+  input, textarea {
+    @apply outline-0 focus:outline-0
   }
-  input {
-    outline: unset;
+  textarea {
+    @apply resize-none
   }
 }

@@ -13,7 +13,7 @@ export default async () => {
     fetch('http://localhost:3000/posts', {
       method: 'post',
       headers: {
-        'Content-Type':'application/json',
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
@@ -22,14 +22,22 @@ export default async () => {
     })
   }
   return (
-    <> 
-
-      <form action={handlerSubmit}>
-        <textarea name="body" id="body">
-
-        </textarea>
-        <button type="submit">Enviar</button>
-      </form>
+    <>
+      <div>
+        <form action={handlerSubmit}>
+          <div className="border-gray-300 border-2 flex flex-col bg-gray-100">
+            <textarea
+              name="body"
+              id="body"
+              className="bg-white p-1"
+              placeholder="¿Qué tienes en mente?"
+            />
+            <div className="p-1 flex justify-end">
+              <button type="submit" className="bg-sky-700 text-white px-2.5 py-0.5 font-semibold">Postear</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </>
   )
 }

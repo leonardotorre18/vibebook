@@ -7,7 +7,20 @@ export class PostsService {
   constructor(private repository: PrismaService) {}
 
   getAll() {
-    return this.repository.post.findMany({})
+    return this.repository.post.findMany({
+      include: {
+        user: {
+          select: {
+            email: true,
+            name: true,
+            lastname: true,
+          }
+        }
+      },
+      orderBy: {
+        updatedAt: 'desc'
+      }
+    })
   }
 
   getById(id: string) {

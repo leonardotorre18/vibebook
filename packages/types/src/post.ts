@@ -3,7 +3,7 @@ import { User } from "./user"
 export interface Post {
   id: string
   body: string
-  user: User
+  user: Omit<User, 'id'>
 }
 
 export interface CreatePost {

@@ -1,9 +1,11 @@
 import { cookies } from "next/headers";
 import CreatePostForm from "./CreatePostForm";
-import { Post } from '@repo/types'
+import { Post, User } from '@repo/types'
+import PostCard from "@/src/components/PostCard";
+import Navbar from "@/src/components/Navbar";
 
 interface PropTypes {
-  user: any
+  user: User
 }
 
 export default async ({ user }: PropTypes) => {
@@ -20,15 +22,14 @@ export default async ({ user }: PropTypes) => {
   
   return (
     <>
-      <main>
+      <Navbar user={user} />
+      <main className="px-4 py-6">
         <div>
           <CreatePostForm />
         </div>
 
-        <div>
-          { posts.map(post => (
-            <><div>{post.body}</div></>
-          )) }
+        <div className="flex flex-col gap-2 py-4">
+          { posts.map(post => <PostCard key={post.id} post={post} />) }
         </div>
       </main>
     </>

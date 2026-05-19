@@ -51,7 +51,7 @@ export default async () => {
     console.log(await res.json())
   }
   return (
-    <div>
+    <div className="bg-sky-100">
       <header className="bg-sky-700 text-white">
         <nav className="flex justify-between items-center px-12 py-4">
           <div>
