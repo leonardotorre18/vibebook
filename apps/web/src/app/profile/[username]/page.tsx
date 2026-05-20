@@ -60,8 +60,8 @@ export default async ({ params }: PropTypes) => {
   
           <div className="space-y-2 py-4">
             { posts.map(post => (
-              <div className="bg-white px-2 py-1">
-                <PostCard key={post.id} post={post} />
+              <div className="bg-white px-2 py-1" key={post.id}>
+                <PostCard post={post} />
               </div>
             )) }
           </div>

@@ -70,7 +70,7 @@ export default async () => {
 
           <div className="space-y-2 py-4">
             { posts.map(post => (
-              <div className="bg-white px-2 py-1">
+              <div className="bg-white px-2 py-1" key={post.id}>
                 <PostCard post={post} />
               </div>
             )) }

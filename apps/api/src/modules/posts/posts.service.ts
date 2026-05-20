@@ -4,7 +4,7 @@ import { CreatePost } from '@repo/types'
 
 @Injectable()
 export class PostsService {
-  constructor(private repository: PrismaService) {}
+  constructor(private repository: PrismaService) { }
 
   getAll() {
     return this.repository.post.findMany({
@@ -15,6 +15,17 @@ export class PostsService {
             name: true,
             lastname: true,
             username: true,
+          }
+        },
+        likes: {
+          include: {
+            user: {
+              select: {
+                username: true,
+                name: true,
+                lastname: true,
+              }
+            }
           }
         }
       },
@@ -37,5 +48,19 @@ export class PostsService {
         userId
       }
     })
+  }
+
+  async toggleLike(postId: string, userId: string) {
+    const deleted = await this.repository.postLike.deleteMany({
+      where: { userId, postId }
+    });
+
+    if (deleted.count === 0) {
+      return this.repository.postLike.create({
+        data: { userId, postId }
+      });
+    }
+
+    return this.getById(postId)
   }
 }

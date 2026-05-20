@@ -1,12 +1,19 @@
 import { Post } from "@repo/types"
 import { Icon } from '@iconify/react'
 import DefaultProfile from "./DefaultProfile"
+import likePostAction from "../actions/likePost.action"
+import { revalidatePath } from "next/cache"
 
 interface PropTypes {
   post: Post
 }
 
-export default ({ post }: PropTypes) => {
+export default ({post}: PropTypes) => {
+  const handleLike = async () => {
+    'use server'
+    await likePostAction(post.id)
+    revalidatePath('')
+  }
   return (
     <>
       <div className="flex gap-2 py-2">
@@ -34,7 +41,7 @@ export default ({ post }: PropTypes) => {
           </div>
 
           <div className="flex gap-2 text-sm py-1">
-            <button className="text-sky-800 hover:text-sky-600 cursor-pointer">Me Gusta</button>
+            <button onClick={handleLike} className="text-sky-800 hover:text-sky-600 cursor-pointer">Me Gusta</button>
             <button className="text-sky-800 hover:text-sky-600 cursor-pointer">Comentar</button>
             <button className="text-sky-800 hover:text-sky-600 cursor-pointer">Compartir</button>
           </div>
@@ -47,7 +54,7 @@ export default ({ post }: PropTypes) => {
                 height={16}
               />
             </div>
-            <p>{6} personas les gustó esto</p>
+            <p>{post.likes.length} personas les gustó esto</p>
           </div>
         </div>
       </div>
